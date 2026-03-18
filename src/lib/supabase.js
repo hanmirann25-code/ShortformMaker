@@ -1,26 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+// 환경변수 우선 사용, 없으면 실제 값 직접 사용 (Vercel 빌드 환경 대응)
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://kwjzbzedaaqszhypushu.supabase.co'
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3anpiemVkYWFxc3poeXB1c2h1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3MTc2OTAsImV4cCI6MjA4OTI5MzY5MH0.ZPsvva2MsU3pjZ4lYnve1AjYSmug8ww7XzO3g1trpq0'
 
-// 환경변수가 실제 값인지 확인 (플레이스홀더 제외)
-const isConfigured =
-  supabaseUrl &&
-  supabaseAnonKey &&
-  supabaseUrl.startsWith('https://') &&
-  supabaseAnonKey.length > 20
-
-if (!isConfigured) {
-  console.warn(
-    '[Supabase] 환경변수가 설정되지 않았습니다.\n' +
-    '.env 파일에서 VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY를 실제 값으로 교체해주세요.\n' +
-    '로그인/회원가입 기능은 비활성화됩니다.'
-  )
-}
-
-// 미설정 시 더미 값으로 클라이언트 생성 (앱 크래시 방지)
-export const supabase = isConfigured
-  ? createClient(supabaseUrl, supabaseAnonKey)
-  : createClient('https://placeholder.supabase.co', 'placeholder-key-for-dev')
-
-export const isSupabaseConfigured = isConfigured
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export const isSupabaseConfigured = true
