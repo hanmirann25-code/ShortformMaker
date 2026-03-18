@@ -1,8 +1,10 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// SSL 인증서 검증 비활성화 (기업 방화벽/VPN 환경 대응)
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+// SSL 인증서 검증 비활성화 (로컬 개발 환경에서만 적용)
+if (process.env.NODE_ENV !== 'production') {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+}
 
 // https://vite.dev/config/
 export default defineConfig({
